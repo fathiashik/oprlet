@@ -4,6 +4,7 @@ import (
     "bufio"
     "encoding/json"
     "fmt"
+    "github.com/jung-kurt/gofpdf/v2"
     "io/ioutil"
     "net/http"
     "os"
@@ -24,6 +25,10 @@ type ScanResult struct {
 var config Config
 var results []ScanResult
 var targetURLs []string
+var configPath = "configuration/config.json"
+var sqlPayloadPath = "payloads/sql_payloads.txt"
+var xssPayloadPath = "payloads/xss_payloads.txt"
+var dirPayloadPath = "payloads/dir_payloads.txt"
 
 func main() {
     fmt.Println(`
@@ -39,7 +44,7 @@ func main() {
      Oprlet - Vulnerability Scanner by Ashik
     `)
 
-    loadConfig("config.json")
+    loadConfig(configPath)
     getInput()
 
     for _, url := range targetURLs {
@@ -50,6 +55,7 @@ func main() {
     }
 
     saveResults("results.json")
+    generatePDFReport("scan_report.pdf")
 }
 
 func loadConfig(filename string) {
@@ -110,21 +116,21 @@ func checkVulnerability(url string, vulnerability string) {
 }
 
 func testSQLInjection(url string) {
-    payloads := loadPayloads("sql_payloads.txt")
+    payloads := loadPayloads(sqlPayloadPath)
     for _, payload := range payloads {
         scanURL(url, payload, "sql-injection")
     }
 }
 
 func testXSS(url string) {
-    payloads := loadPayloads("xss_payloads.txt")
+    payloads := loadPayloads(xssPayloadPath)
     for _, payload := range payloads {
         scanURL(url, payload, "xss")
     }
 }
 
 func testDirTraversal(url string) {
-    payloads := loadPayloads("dir_payloads.txt")
+    payloads := loadPayloads(dirPayloadPath)
     for _, payload := range payloads {
         scanURL(url, payload, "directory-traversal")
     }
@@ -189,5 +195,69 @@ func saveResults(filename string) {
     err = encoder.Encode(results)
     if err != nil {
         fmt.Printf("Error encoding results: %s\n", err)
+    }
+}
+
+func generatePDFReport(filename string) {
+    pdf := gofpdf.New("P", "mm", "A4", "")
+    pdf.AddPage()
+    pdf.SetFont("Arial", "B", 16)
+    pdf.Cell(40, 10, "Oprlet - Vulnerability Scan Report")
+    pdf.Ln(20)
+
+    pdf.SetFont("Arial", "", 12)
+    for _, result := range results {
+        pdf.Cell(0, 10, fmt.Sprintf("URL: %s", result.URL))
+        pdf.Ln(8)
+        pdf.Cell(0, 10, fmt.Sprintf("Vulnerability: %s", result.Vulnerability))
+        pdf.Ln(8)
+        pdf.Cell(0, 10, fmt.Sprintf("Status: %s", result.Status))
+        pdf.Ln(12)
+    }
+
+    err := pdf.OutputFileAndClose(filename)
+    if err != nil {
+        fmt.Printf("Error creating PDF report: %s\n", err)
+    }
+}
+
+func checkForUpdates() {
+    fmt.Println("Checking for updates...")
+
+    originalConfig, _ := ioutil.ReadFile("original_config.json")
+    currentConfig, _ := ioutil.ReadFile(configPath)
+
+    if string(originalConfig) != string(currentConfig) {
+        fmt.Println("Configuration file has been updated.")
+        loadConfig(configPath)
+    } else {
+        fmt.Println("Configuration file is up-to-date.")
+    }
+
+    originalSQLPayloads, _ := ioutil.ReadFile("original_sql_payloads.txt")
+    currentSQLPayloads, _ := ioutil.ReadFile(sqlPayloadPath)
+
+    if string(originalSQLPayloads) != string(currentSQLPayloads) {
+        fmt.Println("SQL payload file has been updated.")
+    } else {
+        fmt.Println("SQL payload file is up-to-date.")
+    }
+
+    originalXSSPayloads, _ := ioutil.ReadFile("original_xss_payloads.txt")
+    currentXSSPayloads, _ := ioutil.ReadFile(xssPayloadPath)
+
+    if string(originalXSSPayloads) != string(currentXSSPayloads) {
+        fmt.Println("XSS payload file has been updated.")
+    } else {
+        fmt.Println("XSS payload file is up-to-date.")
+    }
+
+    originalDirPayloads, _ := ioutil.ReadFile("original_dir_payloads.txt")
+    currentDirPayloads, _ := ioutil.ReadFile(dirPayloadPath)
+
+    if string(originalDirPayloads) != string(currentDirPayloads) {
+        fmt.Println("Directory traversal payload file has been updated.")
+    } else {
+        fmt.Println("Directory traversal payload file is up-to-date.")
     }
 }
