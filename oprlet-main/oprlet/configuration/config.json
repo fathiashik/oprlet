@@ -1,0 +1,7 @@
+{
+  "vulnerabilities": [
+    "sql-injection",
+    "xss",
+    "directory-traversal"
+  ]
+}

